@@ -1,9 +1,5 @@
 spring:
   application:
     name: "gatewayserver"
-    description: "Easy Bank Gateway Server Application"
-    version: "1.0.0"
-  profiles:
-    active: "default"
   config:
     import: "configserver:${CONFIG_SERVER_URL:http://localhost:8071/}"
