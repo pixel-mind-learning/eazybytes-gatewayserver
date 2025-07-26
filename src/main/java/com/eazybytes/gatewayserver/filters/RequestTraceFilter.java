@@ -46,5 +46,4 @@ public class RequestTraceFilter implements GlobalFilter {
     private String generateCorrelationId() {
         return java.util.UUID.randomUUID().toString();
     }
-
 }

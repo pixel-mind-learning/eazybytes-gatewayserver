@@ -7,10 +7,7 @@ import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.server.reactive.ServerHttpResponse;
 import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
 
 @Configuration
 public class ResponseTraceFilter {
@@ -28,11 +25,12 @@ public class ResponseTraceFilter {
                 String correlationId = filterUtility.getCorrelationId(requestHeaders);
 
                 // Set response custom header
-                ServerHttpResponse response = exchange.getResponse();
-                response.getHeaders().add("X-Response-Time", LocalDateTime.now().toString());
-
-                logger.debug("Updated the correlation id to the outbound headers: {}", correlationId);
-                exchange.getResponse().getHeaders().add(filterUtility.CORRELATION_ID, correlationId);
+                // ServerHttpResponse response = exchange.getResponse();
+                // response.getHeaders().add("X-Response-Time", LocalDateTime.now().toString());
+                if (!(exchange.getResponse().getHeaders().containsKey(filterUtility.CORRELATION_ID))) {
+                    logger.debug("Updated the correlation id to the outbound headers: {}", correlationId);
+                    exchange.getResponse().getHeaders().add(filterUtility.CORRELATION_ID, correlationId);
+                }
             }));
         };
     }
